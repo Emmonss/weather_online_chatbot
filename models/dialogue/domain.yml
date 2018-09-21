@@ -1,0 +1,131 @@
+%YAML 1.1
+---
+action_factory: null
+action_names:
+- utter_greet
+- utter_goodbye
+- utter_default
+- utter_thanks
+- utter_ask_morehelp
+- utter_nothing_todo
+- utter_ask_time
+- utter_select_none
+- utter_ask_blurry_time
+- action_search_blurry_weather
+- action_search_precise_weather
+- action_search_special_item
+- action_search_pollution
+- action_slot_reset
+- action_restarted
+actions:
+- utter_greet
+- utter_goodbye
+- utter_default
+- utter_thanks
+- utter_ask_morehelp
+- utter_nothing_todo
+- utter_ask_time
+- utter_select_none
+- utter_ask_blurry_time
+- actions.ActionSearchBlurryWeather
+- actions.ActionSearchPreciseWeather
+- actions.ActionSearchSpecialItem
+- actions.ActionSearchPollution
+- actions.ActionSlotReset
+- actions.ActionRestarted
+config:
+  store_entities_as_slots: true
+entities:
+- weather_dot
+- location
+- blurry_time
+- month
+- day
+- special_item
+- pollution
+intents:
+- infrom_blurry_time:
+    use_entities: true
+- infrom_special_item:
+    use_entities: true
+- infrom_day:
+    use_entities: true
+- infrom_weather_dot:
+    use_entities: true
+- request_search_blurry_weather:
+    use_entities: true
+- request_search_pollution:
+    use_entities: true
+- request_search_special_item:
+    use_entities: true
+- inform_location:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- default:
+    use_entities: true
+- greet:
+    use_entities: true
+- infrom_month:
+    use_entities: true
+- infrom_pollution:
+    use_entities: true
+- request_search_precise_weather:
+    use_entities: true
+- thanks:
+    use_entities: true
+- deny:
+    use_entities: true
+slots:
+  blurry_time:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+  day:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+  location:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+  month:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+  pollution:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+  special_item:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+  weather_dot:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+templates:
+  utter_ask_blurry_time:
+  - text: 您可以具体查询今天，明天，后天，大后天或者未来一周的具体天气
+  utter_ask_morehelp:
+  - text: 还有什么能帮您吗
+  - text: 您还想干什么
+  utter_ask_time:
+  - text: 您好，请问您要查哪天的呢
+  - text: 您好，请问您要查那一天的天气
+  - text: 在下不知道您说的具体是哪一天的天气
+  utter_default:
+  - text: 不好意思,这个我还不会
+  - text: 您能再说一遍吗，我没听清
+  utter_goodbye:
+  - text: 再见，很高兴为您服务
+  - text: Bye， 下次再见
+  utter_greet:
+  - text: 您好! 我是天气预报小机器人，请问有什么天气方面的知识可以帮您的吗
+  - text: 你好! 我是天气预报小机器人，你可以向我咨询机场内的问题
+  - text: hi!人家是天气小超人，可以回答您各种天气问题。
+  utter_nothing_todo:
+  - text: 您好，我现在只会帮忙查天气。
+  - text: 您好，我现在只学会了天气方面的知识，其他的不知道呢。
+  - text: 您可以这样问我：帮我查一下明天的天气
+  utter_select_none:
+  - text: 不好意思，数据库中暂时没有这些数据
+  - text: 不好意思，数据库还未存储相关数据
+  utter_thanks:
+  - text: 不用谢
+  - text: 我应该做的
+  - text: welcome~

@@ -1,0 +1,59 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    background-color: #321234;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+}
+
+.container {
+    width: 1300px;
+    height: 560px;
+    margin: 30px;
+    align-content: center;
+    padding: 2px;
+    position: absolute;
+}
+
+.left {
+    width: 48%;
+    height: 100%;
+    background: deepskyblue;
+    float: left;
+    position: relative;
+}
+
+.right {
+    width: 48%;
+    height: 100%;
+    float: right;
+    position: relative;
+}
+
+textarea {
+    background-color: white;
+}
+
+.leftup {
+    width: 628px;
+    height: 500px;
+    background-color: deepskyblue;
+}
+
+.leftbottom {
+    width: 628px;
+    height: 60px;
+    background-color: white;
+}
+
+.leftbottom > input {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: black;
+    font-size: 36px;
+    text-align: center;
+}

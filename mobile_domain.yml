@@ -1,0 +1,94 @@
+slots:
+  weather_dot:
+    type: text
+  location:
+    type: text
+  blurry_time:
+    type: text
+  month:
+    type: text
+  day:
+    type: text
+  special_item:
+    type: text
+  pollution:
+    type: text
+
+intents:
+  - greet
+  - goodbye
+  - thanks
+  - default
+  - deny
+  - request_search_blurry_weather
+  - request_search_precise_weather
+  - request_search_special_item
+  - request_search_pollution
+  - infrom_weather_dot
+  - infrom_pollution
+  - infrom_blurry_time
+  - infrom_blurry_time
+  - infrom_special_item
+  - infrom_month
+  - infrom_day
+  - inform_location
+
+entities:
+  - weather_dot
+  - location
+  - blurry_time
+  - month
+  - day
+  - special_item
+  - pollution
+
+templates:
+  utter_greet:
+    - "您好! 我是天气预报小机器人，请问有什么天气方面的知识可以帮您的吗"
+    - "你好! 我是天气预报小机器人，你可以向我咨询机场内的问题"
+    - "hi!人家是天气小超人，可以回答您各种天气问题。"
+  utter_goodbye:
+    - "再见，很高兴为您服务"
+    - "Bye， 下次再见"
+  utter_default:
+    - "不好意思,这个我还不会"
+    - "您能再说一遍吗，我没听清"
+  utter_thanks:
+    - "不用谢"
+    - "我应该做的"
+    - "welcome~"
+  utter_ask_morehelp:
+    - "还有什么能帮您吗"
+    - "您还想干什么"
+  utter_nothing_todo:
+    - "您好，我现在只会帮忙查天气。"
+    - "您好，我现在只学会了天气方面的知识，其他的不知道呢。"
+    - "您可以这样问我：帮我查一下明天的天气"
+  utter_ask_time:
+    - "您好，请问您要查哪天的呢"
+    - "您好，请问您要查那一天的天气"
+    - "在下不知道您说的具体是哪一天的天气"
+  utter_select_none:
+    - "不好意思，数据库中暂时没有这些数据"
+    - "不好意思，数据库还未存储相关数据"
+  utter_ask_blurry_time:
+    - "您可以具体查询今天，明天，后天，大后天或者未来一周的具体天气"
+  utter_ask_special_item:
+    - "您可以问一些具体的污染物的数值，例如臭氧，二氧化氮等"
+
+actions:
+  - utter_greet
+  - utter_goodbye
+  - utter_default
+  - utter_thanks
+  - utter_ask_morehelp
+  - utter_nothing_todo
+  - utter_ask_time
+  - utter_select_none
+  - utter_ask_blurry_time
+  - actions.ActionSearchBlurryWeather
+  - actions.ActionSearchPreciseWeather
+  - actions.ActionSearchSpecialItem
+  - actions.ActionSearchPollution
+  - actions.ActionSlotReset
+  - actions.ActionRestarted

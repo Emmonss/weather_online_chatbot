@@ -1,0 +1,240 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>聊天机器人</title>
+    <!--<link rel="stylesheet" href="{{index_css}}">-->
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            background-color: #ffffff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #000000;
+        }
+
+        .container {
+            width: 1300px;
+            height: 560px;
+            margin: 30px;
+            align-content: center;
+            padding: 2px;
+            position: absolute;
+        }
+
+        .left {
+            width: 628px;
+            height: 100%;
+            background: #999395;
+            left:50%;
+            position: relative;
+        }
+
+        .right {
+            width:  100px;
+            left:50%;
+            position: relative;
+        }
+        .bottom {
+            width:  628px;
+            height: 100px;
+            left:50%;
+            position: relative;
+        }
+
+        textarea {
+            overflow: visible;
+            background-color: white;
+        }
+
+        .leftup {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: #999395;
+        }
+
+        .leftbottom {
+            width: 100px;
+            height: 50px;
+            float: left;
+            background-color: white;
+        }
+
+        .leftbottom>button {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            color: black;
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        .rightbottom {
+            width: 100px;
+            height: 50px;
+            float: right;
+            background-color: white;
+        }
+
+        .rightbottom>button {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            color: black;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .mywords {
+            color: #000000;
+            background-color: #999395;
+            /*padding: 3px;
+            margin: 4px;*/
+            float: left;
+            height: auto;
+            /*display: block;*/
+        }
+
+        .mywords > img {
+            width: 28px;
+            height: 28px;
+            /*padding: 3px;*/
+        }
+        .mywords > span {
+            width:auto;
+			background-color: #999395;
+            height: 28px;
+            margin-left: 3px;
+            margin-top: 2px;
+        }
+
+        .robot {
+            height: auto;
+            color: #000000;
+            background-color: #999395;
+            /*padding: 3px;
+            margin: 4px;*/
+            float: right;
+            /*display: block;*/
+        }
+
+        .robot > img {
+            width: 28px;
+            height: 28px;
+            /*padding: 3px;*/
+        }
+        .robot > span {
+            width:auto;
+            background-color: #999395;
+            height: 28px;
+            margin-left: 3px;
+            margin-top: 2px;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+    function send() {
+        // 先获取文本域内的代码值
+        var sourcecode = $("#sourcecode").val();
+        // var sourcecode = document.getElementById("sourcecode").value;
+        // 借助ajax实现功能获取
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                console.log(xhr.responseText)
+            }
+        }
+        xhr.open('post', '/api/user')
+        xhr.send({ 'code': sourcecode })
+    }
+    
+    function send2(){
+        // 更新聊天页面
+        update_chat();
+        // 请求代码执行结果
+        $.ajax({
+            url: '/api/user',
+            type: "POST",
+            dataType: "json",
+            async: true,
+            data: {'code': $("#sourcecode").val()},
+            success: function(response){
+                console.log("Success.")
+                console.log(response)
+                // console.log(response.responseText);
+                // eval('var data = '+ response.responseText)
+                // result = response.responseText
+                update_robot(response.content);
+            },
+            error: function(msg){
+                console.log("Error.")
+                console.log(msg.responseText);
+                result = msg.responseText;
+                update_robot(result);
+            }
+        })
+         document.getElementById("sourcecode").value = "";
+        // 更新滚动条，以便于自动上划。
+        scroll_top();
+//		document.getElementById('sourcecode').va;
+    }
+
+    function update_chat(){
+        console.log("Ready to append mywords.")
+        // 先创建本人说话的内容节点
+        var source = $("#sourcecode").val();
+        // http://avatar.csdn.net/0/8/F/3_marksinoberg.jpg
+        child_node = "<div class='mywords'><span>"+source+"<br></span><br></div>"
+        var mywords = $(child_node);
+        $("#lefttop").append(mywords);
+    }
+
+
+    function update_robot(result){
+        console.log('更新聊天机器人代码执行结果。')
+        // 创建代码返回结果的节点
+        child_node = "<div class='robot'><span><br>"+result+"<br><br></span></div>"
+        var robot_words = $(child_node);
+        $("#lefttop").append(robot_words);
+    }
+
+    function scroll_top(){
+        var messagebox = document.getElementById("lefttop");
+        messagebox.scrollTop = messagebox.scrollHeight-messagebox.style.height;
+    }
+
+</script>
+</head>
+
+<body>
+    <h1>天气对话机器人</h1>
+    <div class="container">
+        <div class="left">
+            <div class="leftup" id="lefttop">
+            </div>
+            <hr>
+            
+        </div>
+        <div class="right">
+            <textarea name="sourcecode" id="sourcecode" cols=79 rows="3" placeholder="None">
+            </textarea>  
+        </div>
+        
+        <div class="bottom">
+            <div align="left" class="leftbottom">
+                <button name='btn' value="清空" onclick="javascript:document.getElementById('lefttop').innerHTML='';">清空</button>
+            </div>
+            <div align="right" class="rightbottom">       
+                <button id=“s” name='btn' value="发送" onclick="send2()">发送</button>  
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</body>
+</html>

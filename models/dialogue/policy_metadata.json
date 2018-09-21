@@ -1,0 +1,40 @@
+{
+  "max_histories": [
+    6,
+    6
+  ],
+  "action_fingerprints": {
+    "action_listen": {
+      "slots": [
+        "pollution",
+        "day",
+        "weather_dot",
+        "month",
+        "special_item",
+        "location",
+        "blurry_time"
+      ]
+    },
+    "utter_greet": {
+      "slots": []
+    },
+    "action_slot_reset": {
+      "slots": []
+    },
+    "action_search_blurry_weather": {
+      "slots": []
+    },
+    "utter_thanks": {
+      "slots": []
+    },
+    "utter_goodbye": {
+      "slots": []
+    }
+  },
+  "ensemble_name": "rasa_core.policies.ensemble.SimplePolicyEnsemble",
+  "policy_names": [
+    "rasa_core.policies.memoization.MemoizationPolicy",
+    "rasa_core.policies.keras_policy.KerasPolicy"
+  ],
+  "rasa_core": "0.10.4"
+}
