@@ -20,18 +20,17 @@ class ActionSearchBlurryWeather(Action):
             local = basic_location
 
         blurry_date  = tracker.get_slot("blurry_time")
-        if blurry_date is None:
-            dispatcher.utter_template("utter_ask_blurry_time",tracker)
-            return []
+        # if blurry_date is None:
+        #     dispatcher.utter_template("utter_ask_blurry_time",tracker)
+        #     return []
         # query database here using item and time as key. but you may normalize time format first.
+        date = get_time(blurry_date)
+        res = select_blurry_weather(cursor,date,local)
+        if not res ==None:
+            dispatcher.utter_message(show_weather_information(date,res))
         else:
-            date = get_time(blurry_date)
-            res = select_blurry_weather(cursor,date,local)
-            if not res ==None:
-                dispatcher.utter_message(show_weather_information(date,res))
-            else:
-                dispatcher.utter_template("utter_select_none", tracker)
-            return []
+            dispatcher.utter_template("utter_select_none", tracker)
+        return []
 
 
 class ActionSearchPreciseWeather(Action):
@@ -44,21 +43,19 @@ class ActionSearchPreciseWeather(Action):
         # item = extract_item(item)
         if local is None:
             local = basic_location
-
+        # if ((month == None ) or (day == None)):
+        #     dispatcher.utter_template("utter_ask_blurry_time", tracker)
+        #     return []
         month = tracker.get_slot("month")
         day = tracker.get_slot("day")
-        if ((month == None ) or (day == None)):
-            dispatcher.utter_template("utter_ask_blurry_time", tracker)
-            return []
+        date = get_precise_date(month,day)
+        res = select_blurry_weather(cursor, date, local)
+        cursor.close()
+        if not res ==None:
+            dispatcher.utter_message(show_weather_information(date,res))
         else:
-            date = get_precise_date(month,day)
-            res = select_blurry_weather(cursor, date, local)
-            cursor.close()
-            if not res ==None:
-                dispatcher.utter_message(show_weather_information(date,res))
-            else:
-                dispatcher.utter_template("utter_select_none", tracker)
-            return []
+            dispatcher.utter_template("utter_select_none", tracker)
+        return []
 
 
 class ActionSearchSpecialItem(Action):
@@ -69,24 +66,24 @@ class ActionSearchSpecialItem(Action):
         cursor = get_weather_db(wea_db_path)
         # dispatcher.utter_message("还没写")
         local = tracker.get_slot("location")
+        special_item = tracker.get_slot("special_item")
         # item = extract_item(item)
         if local is None:
             local = basic_location
 
-        special_item  = tracker.get_slot("special_item")
-        if special_item is None:
-            dispatcher.utter_template("utter_ask_special_item",tracker)
-            return []
+
+        # if special_item is None:
+        #     dispatcher.utter_template("utter_ask_special_item",tracker)
+        #     return []
         # # query database here using item and time as key. but you may normalize time format first.
+        special_item = get_special_item(special_item)
+        res = select_special_item(cursor,special_item,local)
+        cursor.close()
+        if not res ==None:
+            dispatcher.utter_message(show_special_item(special_item,res))
         else:
-            special_item = get_special_item(special_item)
-            res = select_special_item(cursor,special_item,local)
-            cursor.close()
-            if not res ==None:
-                dispatcher.utter_message(show_special_item(special_item,res))
-            else:
-                dispatcher.utter_template("utter_select_none", tracker)
-            return []
+            dispatcher.utter_template("utter_select_none", tracker)
+        return []
 
 class ActionSearchPollution(Action):
     def name(self):
@@ -100,18 +97,17 @@ class ActionSearchPollution(Action):
             local = basic_location
         #
         pollution  = tracker.get_slot("pollution")
-        if pollution is None:
-            dispatcher.utter_template("utter_ask_blurry_time",tracker)
-            return []
+        # if pollution is None:
+        #     dispatcher.utter_template("utter_ask_blurry_time",tracker)
+        #     return []
         # # query database here using item and time as key. but you may normalize time format first.
+        res = select_pollution(cursor,local)
+        cursor.close()
+        if not res ==None:
+            dispatcher.utter_message(show_pollution(res))
         else:
-            res = select_pollution(cursor,local)
-            cursor.close()
-            if not res ==None:
-                dispatcher.utter_message(show_pollution(res))
-            else:
-                dispatcher.utter_template("utter_select_none", tracker)
-            return []
+            dispatcher.utter_template("utter_select_none", tracker)
+        return []
 
 
 class ActionRestarted(Action):

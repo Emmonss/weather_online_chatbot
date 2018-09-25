@@ -14,15 +14,39 @@ text,intent,location,blurry_time,weather_dot
 我想查拉萨未来一周的天气|request_search_blurry_weather|拉萨，未来一周，天气
 我想查郑州未来一周的天气|request_search_blurry_weather|郑州，未来一周，天气
 
+text,intent,location,weather_dot
+合肥的天气怎么样|utter_ask_time|合肥，天气
+北京的天气怎么样|utter_ask_time|北京，天气
+查一下南京的天气怎么样|utter_ask_time|南京，天气
+问一下上海的天气|utter_ask_time|上海，天气
+麻烦问一下北京的天气|utter_ask_time|北京，天气
+合肥天气怎么样|utter_ask_time|合肥，天气
+北京天气怎么样|utter_ask_time|北京，天气
+厦门的天气|utter_ask_time|厦门，天气
+武汉的天气|utter_ask_time|武汉，天气
+
 text,intent,blurry_time,weather_dot
-今天天气怎么样|request_search_blurry_weather|今天，天气
-帮我查一下后天天气|request_search_blurry_weather|后天，天气
-查一下大后天天气|request_search_blurry_weather|大后天，天气
-今天的天气怎么样|request_search_blurry_weather|今天，天气
-明天的天气怎么样|request_search_blurry_weather|明天，天气
-后天的天气怎么样|request_search_blurry_weather|后天，天气
-大后天的天气怎么样|request_search_blurry_weather|大后天，天气
-未来一周的天气怎么样|request_search_blurry_weather|未来一周，天气
+今天的天气怎么样|utter_ask_location|今天，天气
+请问今天的天气怎么样|utter_ask_location|今天，天气
+告诉我今天的天气怎么样|utter_ask_location|今天，天气
+麻烦问一下今天的天气怎么样|utter_ask_location|今天，天气
+明天的天气怎么样|utter_ask_location|明天，天气
+请问今天的天气怎么样|utter_ask_location|明天，天气
+告诉我明天的天气怎么样|utter_ask_location|明天，天气
+麻烦问一下明天的天气怎么样|utter_ask_location|明天，天气
+请问后天的天气怎么样|utter_ask_location|后天，天气
+帮我问问明天的天气怎么样|utter_ask_location|明天，天气
+帮我查查后天的天气怎么样|utter_ask_location|后天，天气
+问一下大后天天气怎么样|utter_ask_location|后天，天气
+告诉我后天的天气怎么样|utter_ask_location|后天，天气
+麻烦问一下后天天气怎么样|utter_ask_location|后天，天气
+帮我查一下后天天气|utter_ask_location|后天，天气
+查一下大后天天气|utter_ask_location|大后天，天气
+今天的天气怎么样|utter_ask_location|今天，天气
+明天的天气怎么样|utter_ask_location|明天，天气
+后天的天气怎么样|utter_ask_location|后天，天气
+大后天的天气怎么样|utter_ask_location|大后天，天气
+未来一周的天气怎么样|utter_ask_location|未来一周，天气
 
 
 text,intent,location,month,day,weather_dot
@@ -36,10 +60,10 @@ text,intent,location,month,day,weather_dot
 福州9月22日的天气是什么？|request_search_precise_weather|福州，9月，22日，天气
 
 text,intent,month,day,weather_dot
-九月二十日的天气是什么？|request_search_precise_weather|九月，二十日，天气
-九月二十一日的天气是什么？|request_search_precise_weather|九月，二十一日，天气
-9月23日的天气是什么？|request_search_precise_weather|9月，23日，天气
-9月22日的天气是什么？|request_search_precise_weather|9月，22日，天气
+九月二十日的天气是什么？|utter_ask_location|九月，二十日，天气
+九月二十一日的天气是什么？|utter_ask_location|九月，二十一日，天气
+9月23日的天气是什么？|utter_ask_location|9月，23日，天气
+9月22日的天气是什么？|utter_ask_location|9月，22日，天气
 
 text,intent,special_item,location
 北京查一下PM2.5的值|request_search_special_item|PM2.5，北京
@@ -61,28 +85,28 @@ text,intent,special_item,location
 
 
 text,intent,special_item
-查一下PM2.5的值|request_search_special_item|PM2.5
-现在PM10的值是多少|request_search_special_item|PM10
-查一下AQI|request_search_special_item|AQI
-查一下臭氧值|request_search_special_item|臭氧
-现在空气中O3值是多少|request_search_special_item|O3
-现在空气中的湿度|request_search_special_item|湿度
-查一下一氧化碳|request_search_special_item|一氧化碳
-查一下CO|request_search_special_item|CO
-查一下二氧化硫|request_search_special_item|二氧化硫
-SO2值是多少|request_search_special_item|SO2
-今天最高气温是多少|request_search_special_item|最高气温
-今天最低气温是多少|request_search_special_item|最低气温
-今天的气温|request_search_special_item|气温
-查一下紫外线强度|request_search_special_item|紫外线
-查一下风向|request_search_special_item|风向
-查一下风速|request_search_special_item|风速
+查一下PM2.5的值|utter_ask_location|PM2.5
+现在PM10的值是多少|utter_ask_location|PM10
+查一下AQI|utter_ask_location|AQI
+查一下臭氧值|utter_ask_location|臭氧
+现在空气中O3值是多少|utter_ask_location|O3
+现在空气中的湿度|utter_ask_location|湿度
+查一下一氧化碳|utter_ask_location|一氧化碳
+查一下CO|utter_ask_location|CO
+查一下二氧化硫|utter_ask_location|二氧化硫
+SO2值是多少|utter_ask_location|SO2
+今天最高气温是多少|utter_ask_location|最高气温
+今天最低气温是多少|utter_ask_location|最低气温
+今天的气温|utter_ask_location|气温
+查一下紫外线强度|utter_ask_location|紫外线
+查一下风向|utter_ask_location|风向
+查一下风速|utter_ask_location|风速
 
 
 text,intent,pollution
-查一下空气中污染物的数值|request_search_pollution|污染物
-查一下现在的污染情况|request_search_pollution|污染
-查一下现在的空气质量|request_search_pollution|空气质量
+查一下空气中污染物的数值|utter_ask_location|污染物
+查一下现在的污染情况|utter_ask_location|污染
+查一下现在的空气质量|utter_ask_location|空气质量
 
 text,intent,pollution,location
 深圳查一下空气中污染物的数值|request_search_pollution|污染物，深圳
@@ -1187,9 +1211,12 @@ hello|greet
 您是|greet
 你是哪个|greet
 啊|greet
+请问|greet
+问你几个问题|greet
 再见|goodbye
 拜拜|goodbye
 很高兴和你说话|goodbye
+撒有拉拉|goodbye
 好的|confirm
 行|confirm
 可以的|confirm
@@ -1197,6 +1224,7 @@ hello|greet
 没问题|confirm
 恩|confirm
 嗯|confirm
+不是这个|deny
 不要|deny
 不需要|deny
 暂时不要了|deny

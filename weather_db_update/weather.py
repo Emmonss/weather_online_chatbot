@@ -10,31 +10,28 @@ opener.addheaders=[headers]
 
 def get_PM25(city):
     try:
+        #天气网站地址
         url = "http://pm25.in/"+city
         data = urllib.request.urlopen(url).read().decode("utf-8")
         # print("城市：{}".format(city))
 
         data_time = '<div class="live_data_time">\s{1,}<p>数据更新时间：(.*?)</p>'
         datatime = re.compile(data_time, re.S).findall(data)
-        # print("数据更新时间：" + datatime[0])
 
+        #先爬PM2.5的
         data_pm25 = '<div class="span1">\s{1,}<div class="value">\n\s{1,}(.*?)\s{1,}</div>'
         data_o3 = '<div class="span1">\s{1,}<div class ="value">\n\s{1,}(.*?)\s{1,}</div>'
-
         pm25list = re.compile(data_pm25, re.S).findall(data)
         o3list = re.compile(data_o3, re.S).findall(data)
-
         pm25list.append(o3list[0])
-        # print("AQI指数，PM2.5，PM10，CO，NO2，SO2，O3：（单位：μg/m3，CO为mg/m3）")
-        # print(pm25list)
-        # print(pm_list)
 
-
-        #获得其他三项当前天气信息
+        #再爬一些单日数据
         url = 'https://www.tianqi.com/{}/'.format(city)
         data = urllib.request.urlopen(url).read().decode("utf-8")
         soup = BeautifulSoup(data, 'html.parser')
         li_shidu = soup.find('dd',attrs={'class':'shidu'}).find_all('b')
+
+        #数据保存
         pm_list = {"AQI": pm25list[0]+"μg/m3", "PM25": pm25list[1]+"μg/m3", "PM10": pm25list[2]+"μg/m3", "CO": pm25list[3]+"mg/m3", "NO2": pm25list[4]+"μg/m3",
                    "SO2": pm25list[5]+"μg/m3", "O3": pm25list[6]+"μg/m3",
                    "humidty": li_shidu[0].string.split("：")[1],
@@ -50,7 +47,6 @@ def get_PM25(city):
         if hasattr(e, "reason"):
             print(e.reason)
         time.sleep(60)
-        # get_PM25(city)
     except Exception as e:
         print(e)
         time.sleep(5)
