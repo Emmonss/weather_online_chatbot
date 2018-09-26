@@ -137,6 +137,18 @@
     </style>
     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script>
+    document.onkeydown=function(e){
+    if(e.keyCode == 13 && e.ctrlKey){
+                 // 这里实现换行
+        document.getElementById("sourcecode").value += "\n";
+    }else if(e.keyCode == 13){
+        // 避免回车键换行
+        e.preventDefault();
+        send2();
+        // 下面写你的发送消息的代码
+    }
+}
+
     function send() {
         // 先获取文本域内的代码值
         var sourcecode = $("#sourcecode").val();
@@ -220,8 +232,7 @@
             
         </div>
         <div class="right">
-            <textarea name="sourcecode" id="sourcecode" cols=79 rows="3" placeholder="None">
-            </textarea>  
+            <textarea name="sourcecode" id="sourcecode" cols=79 rows="3" placeholder="None"></textarea>
         </div>
         
         <div class="bottom">

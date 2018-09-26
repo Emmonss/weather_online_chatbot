@@ -148,7 +148,7 @@ def delete_yesterday(path):
 if __name__ == '__main__':
     path = 'weather.db'
     js = load_json('city.json')
-
+    create_dataDB(path)
     # delete_yesterday(path)
 
     for i in range(len(js)):

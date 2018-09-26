@@ -8,6 +8,15 @@ from basic_data import *
 
 
 
+class ActionNoneWeather(Action):
+    def name(self):
+        return 'action_none_weather'
+    def run(self, dispatcher, tracker, domain):
+        weather_dot = tracker.get_slot("weather_dot")
+        if weather_dot == None:
+            dispatcher.utter_template("utter_please_ask_weather", tracker)
+        return[AllSlotsReset()]
+
 class ActionSearchBlurryWeather(Action):
     def name(self):
         return 'action_search_blurry_weather'
