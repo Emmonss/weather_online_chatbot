@@ -8,7 +8,7 @@ headers=("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (
 opener = urllib.request.build_opener()
 opener.addheaders=[headers]
 
-def get_PM25(city):
+def get_PM25(city,name):
     try:
         #天气网站地址
         url = "http://pm25.in/"+city
@@ -38,20 +38,21 @@ def get_PM25(city):
                    "wind": li_shidu[1].string.split("：")[1].split()[0],
                    "wind_inten": li_shidu[1].string.split("：")[1].split()[1],
                    "ultra_ray": li_shidu[2].string.split("：")[1],
-                   "date": datatime[0]}
+                   "date": datatime[0],
+                   'city': name
+                   }
         return pm_list
     except urllib.error.URLError as e:
-        print("出现URLERROR！一分钟后重试……")
         if hasattr(e, "code"):
             print(e.code)
         if hasattr(e, "reason"):
             print(e.reason)
-        time.sleep(60)
+        time.sleep(5)
     except Exception as e:
         print(e)
         time.sleep(5)
 
-def get_Weather(city):
+def get_Weather(city,name):
     try:
         weatherlist = []
         url='https://www.tianqi.com/{}/'.format(city)
@@ -64,17 +65,17 @@ def get_Weather(city):
         li_temp = soup.find('div', attrs={'class': 'zxt_shuju'}).find('ul').find_all('li')
         for i in range (len(li_weather)):
             slot = [];
-            slot.append({'日期': li_date[i].find('b').string,'星期': li_date[i].find('span').string,'天气':li_weather[i].string,'最高气温': li_temp[i].find('span').string+"℃",'最低气温': li_temp[i].find('b').string+"℃"})
+            slot.append({'城市':name,'拼音':city,'日期': li_date[i].find('b').string,'星期': li_date[i].find('span').string,'天气':li_weather[i].string,'最高气温': li_temp[i].find('span').string+"℃",'最低气温': li_temp[i].find('b').string+"℃"})
             weatherlist.append(slot)
         return weatherlist
 
     except urllib.error.URLError as e:
-        print("出现URLERROR！一分钟后重试……")
+        #print("出现URLERROR！一分钟后重试……")
         if hasattr(e,"code"):
             print(e.code)
         if hasattr(e,"reason"):
             print(e.reason)
-        time.sleep(60)
+        time.sleep(5)
         # get_Weather(city)
     except Exception as e:
         print("Exception："+str(e))

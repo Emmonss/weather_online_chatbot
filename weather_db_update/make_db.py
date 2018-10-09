@@ -4,6 +4,7 @@ from weather import get_Weather,get_PM25
 import time
 import datetime
 import random
+import os
 
 def load_json(path):
     fw = open(path,encoding='utf-8').read()
@@ -48,10 +49,8 @@ def create_dataDB(path):
     cursor.close()
     print("database has created!")
 
-def insert_weatherdata(path,data,cp,cn):
+def insert_weatherdata(conn,cursor,data):
     try:
-        conn = sqlite3.connect(path)
-        cursor = conn.cursor()
         for i in range(len(data)):
             cursor.execute(
                 '''
@@ -67,24 +66,19 @@ def insert_weatherdata(path,data,cp,cn):
                         ('{}','{}','{}','{}','{}','{}','{}')
                 '''.format(
                                 data[i][0]['日期'],
-                                cn,
+                                data[i][0]['城市'],
                                 data[i][0]['星期'],
-                                cp,
+                                data[i][0]['拼音'],
                                 data[i][0]['天气'],
                                 data[i][0]['最高气温'],
                                 data[i][0]['最低气温']
                             )
             )
-        conn.commit()
-        cursor.close()
-        print("{}一周天气数据已经成功插入！".format(cn))
     except Exception as e:
         print(e)
 
-def insert_PMdata(path,data,cn):
+def insert_PMdata(conn,cursor,data):
     try:
-        conn = sqlite3.connect(path)
-        cursor = conn.cursor()
         cursor.execute(
                 '''
                     replace into pm
@@ -106,7 +100,7 @@ def insert_PMdata(path,data,cn):
                         '{}','{}','{}','{}','{}',
                         '{}','{}','{}')
                 '''.format(
-                                cn,
+                                data.get("city"),
                                 data.get("date"),
                                 data.get("AQI"),
                                 data.get('PM25'),
@@ -121,9 +115,6 @@ def insert_PMdata(path,data,cn):
                                 data.get('ultra_ray'),
                             )
             )
-        conn.commit()
-        cursor.close()
-        print("{}PM最新数据已经成功插入！".format(cn))
     except Exception as e:
         print(e)
 
@@ -145,25 +136,121 @@ def delete_yesterday(path):
     cursor.close()
     print("{}-昨日天气数据已经清空！".format(datetime.datetime.now()))
 
-if __name__ == '__main__':
+def get_randomtime():
+    return random.randint(2, 3)
+
+
+
+def update_weatherDB(time_now,path,city):
+    try:
+        conn = sqlite3.connect(path)
+        cursor = conn.cursor()
+        weather_all = []
+        for i in range(len(city)):
+            res = get_Weather(city[i]['pinyin'].lower(),city[i]['name'])
+            weather_all.append(res)
+            time.sleep(get_randomtime())
+            print("已抓城市/所有城市：{}/{}".format(i + 1, len(city)))
+
+        #print(weather_all)
+        for item in weather_all:
+            insert_weatherdata(conn, cursor, item)
+
+        conn.commit()
+        cursor.close()
+    except Exception as e:
+        print("{}时报错：{}".format(time_now, e))
+
+def update_PM25(time_now,path,city):
+    try:
+        conn = sqlite3.connect(path)
+        cursor = conn.cursor()
+        weather_all = []
+        for i in range(len(city)):
+            res = get_PM25(city[i]['pinyin'].lower(),city[i]['name'])
+            weather_all.append(res)
+            time.sleep(get_randomtime())
+            print("已抓城市/所有城市：{}/{}".format(i + 1, len(city)))
+
+        for item in weather_all:
+            insert_PMdata(conn, cursor, item)
+
+        conn.commit()
+        cursor.close()
+    except Exception as e:
+        print("{}时报错：{}".format(time_now,e))
+
+
+def get_current_hour():
+    now_time = datetime.datetime.now()
+
+    hour = now_time.strftime('%Y %m %d %H %M %S').split()[3]
+    return now_time,hour
+
+
+
+
+def Main():
+    sleep_hour = 3600
     path = 'weather.db'
-    js = load_json('city.json')
-    create_dataDB(path)
-    # delete_yesterday(path)
+    js = load_json('city_test.json')
 
-    for i in range(len(js)):
-            res = get_Weather(js[i]['pinyin'].lower())
-            insert_weatherdata(path,res,js[i]['pinyin'],js[i]['name'])
+    if not os.path.exists(path):
+        create_dataDB(path)
 
-            rest_time = random.randint(2, 5)
-            print("休息{}秒数秒防止被封IP".format(rest_time))
-            time.sleep(rest_time)
+    while True:
+        time_now,hour = get_current_hour()
+        print("当前时间{}".format(time_now))
 
-            res = get_PM25(js[i]['pinyin'].lower())
-            insert_PMdata(path,res,js[i]['name'])
+        if hour == '09':
+            print('{}:{}点的天气数据已经开始更新'.format(time_now, hour))
+            update_weatherDB(time_now,path,js)
+            delete_yesterday(path)
+            print('{}:{}点的天气数据已经全部更新'.format(time_now,hour))
 
-            rest_time = random.randint(2, 5)
-            print("休息{}秒数秒防止被封IP".format(rest_time))
-            time.sleep(rest_time)
-            print("已抓城市/所有城市：{}/{}/".format(i+1,len(js)))
-    delete_yesterday(path)
+        elif hour == '09' or hour == '16' :
+            print('{}:{}点的空气数据已经开始更新'.format(time_now, hour))
+            update_PM25(time_now,path,js)
+            print('{}:{}点的空气数据已经全部更新'.format(time_now, hour))
+
+        else:
+            print('{}:{}点无数据更新'.format(time_now, hour))
+
+        time.sleep(sleep_hour)
+
+
+if __name__ == '__main__':
+    Main()
+
+
+
+
+    # while True:
+    #     time_now =
+    # conn = sqlite3.connect(path)
+    # cursor = conn.cursor()
+    # # delete_yesterday(path)
+    # weather_all = []
+    # data_all = []
+    #
+    # for i in range(len(js)):
+    #         res = get_Weather(js[i]['pinyin'].lower(),js[i]['name'])
+    #         weather_all.append(res)
+    #         time.sleep(get_randomtime())
+    #
+    #         res = get_PM25(js[i]['pinyin'].lower(),js[i]['name'])
+    #         data_all.append(res)
+    #         time.sleep(get_randomtime())
+    #
+    #         print("已抓城市/所有城市：{}/{}".format(i+1,len(js)))
+    #
+    # for item in weather_all:
+    #     insert_weatherdata(conn,cursor, item)
+    # for item in data_all:
+    #     insert_PMdata(conn,cursor, item)
+    #
+    # conn.commit()
+    # cursor.close()
+    #
+    # print("done!")
+    #delete_yesterday(path)
